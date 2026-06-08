@@ -5646,6 +5646,11 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal()
 /* ═══════════════════════════════════════════════════════
    INIT
 ═══════════════════════════════════════════════════════ */
+// ✅ Default light theme
+document.documentElement.setAttribute('data-theme', 'light');
+var _themeBtn = document.getElementById('themeBtn');
+if (_themeBtn) _themeBtn.textContent = '🌙';
+
 renderGrid();
 
 /* ═══════════════════════════════════════════════════════
@@ -5654,8 +5659,14 @@ renderGrid();
 function showExitDialog() { document.getElementById('exitDialogOverlay').classList.add('show'); }
 function hideExitDialog() { document.getElementById('exitDialogOverlay').classList.remove('show'); }
 function confirmExit() {
-  if (window.history.length > 1) { window.history.back(); }
-  else { window.close(); }
+  // เรียก Native Android bridge เพื่อปิดแอปจริงๆ
+  if (typeof AndroidApp !== 'undefined') {
+    AndroidApp.exit();
+  } else if (window.history.length > 1) {
+    window.history.back();
+  } else {
+    window.close();
+  }
 }
 
 /* ═══════════════════════════════════════════════════════

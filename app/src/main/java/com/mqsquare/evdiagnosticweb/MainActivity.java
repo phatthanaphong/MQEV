@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.os.Bundle;
+import android.os.Process;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -18,18 +19,26 @@ public class MainActivity extends Activity {
 
     private WebView webView;
 
+    // ─── JS Bridge ─────────────────────────────────────────────
     public class AndroidAppBridge {
         @JavascriptInterface
         public void exit() {
-            runOnUiThread(() -> {
-                new AlertDialog.Builder(MainActivity.this)
-                    .setTitle("ออกจากแอป")
-                    .setMessage("ต้องการออกจากแอปหรือไม่?")
-                    .setPositiveButton("ออก", (d, w) -> finishAffinity())
-                    .setNegativeButton("ยกเลิก", null)
-                    .show();
-            });
+            runOnUiThread(() -> showExitDialog());
         }
+    }
+
+    private void showExitDialog() {
+        new AlertDialog.Builder(this)
+            .setTitle("ออกจากแอป")
+            .setMessage("ต้องการออกจากแอปหรือไม่?")
+            .setPositiveButton("ออก", (d, w) -> exitApp())
+            .setNegativeButton("ยกเลิก", null)
+            .show();
+    }
+
+    private void exitApp() {
+        finish();                    // ปิด Activity
+        Process.killProcess(Process.myPid()); // kill process ทันที
     }
 
     @SuppressLint({"SetJavaScriptEnabled", "AddJavascriptInterface"})
@@ -80,12 +89,7 @@ public class MainActivity extends Activity {
         if (webView.canGoBack()) {
             webView.goBack();
         } else {
-            new AlertDialog.Builder(this)
-                .setTitle("ออกจากแอป")
-                .setMessage("ต้องการออกจากแอปหรือไม่?")
-                .setPositiveButton("ออก", (d, w) -> finishAffinity())
-                .setNegativeButton("ยกเลิก", null)
-                .show();
+            showExitDialog();
         }
     }
 
