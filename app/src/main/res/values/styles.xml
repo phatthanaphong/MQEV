@@ -1,8 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Theme หลัก -->
     <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowBackground">#F0F2F5</item>
         <item name="android:statusBarColor">#FFFFFF</item>
         <item name="android:navigationBarColor">#F0F2F5</item>
+    </style>
+
+    <!-- Theme สำหรับ Splash — พื้นขาว ไม่มี black flash -->
+    <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">#FFFFFF</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:statusBarColor">#FFFFFF</item>
+        <item name="android:navigationBarColor">#FFFFFF</item>
+        <item name="android:windowAnimationStyle">@null</item>
     </style>
 </resources>

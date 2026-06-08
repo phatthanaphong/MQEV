@@ -12,17 +12,25 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
 
+        <!-- ✅ SplashActivity เป็น LAUNCHER (เปิดก่อน) -->
         <activity
-            android:name=".MainActivity"
+            android:name=".SplashActivity"
             android:exported="true"
-            android:configChanges="orientation|screenSize|keyboardHidden"
-            android:windowSoftInputMode="adjustResize"
-            android:excludeFromRecents="false"
-            android:finishOnTaskLaunch="false">
+            android:theme="@style/SplashTheme"
+            android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <!-- MainActivity เปิดต่อจาก Splash -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="false"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:windowSoftInputMode="adjustResize"
+            android:finishOnTaskLaunch="false">
         </activity>
 
     </application>
