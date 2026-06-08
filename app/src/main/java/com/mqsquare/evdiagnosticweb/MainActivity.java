@@ -3,6 +3,7 @@ package com.mqsquare.evdiagnosticweb;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Process;
 import android.view.View;
@@ -19,7 +20,6 @@ public class MainActivity extends Activity {
 
     private WebView webView;
 
-    // ─── JS Bridge ─────────────────────────────────────────────
     public class AndroidAppBridge {
         @JavascriptInterface
         public void exit() {
@@ -37,8 +37,13 @@ public class MainActivity extends Activity {
     }
 
     private void exitApp() {
-        finish();                    // ปิด Activity
-        Process.killProcess(Process.myPid()); // kill process ทันที
+        // ✅ ลบออกจาก Recent Apps ด้วย FLAG_ACTIVITY_CLEAR_TASK
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
+                      | Intent.FLAG_ACTIVITY_NEW_TASK
+                      | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        finishAndRemoveTask();   // ลบออกจาก recent list ทันที
+        Process.killProcess(Process.myPid());
     }
 
     @SuppressLint({"SetJavaScriptEnabled", "AddJavascriptInterface"})
