@@ -3,7 +3,6 @@ package com.mqsquare.evdiagnosticweb;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Process;
 import android.view.View;
@@ -37,12 +36,7 @@ public class MainActivity extends Activity {
     }
 
     private void exitApp() {
-        // ✅ ลบออกจาก Recent Apps ด้วย FLAG_ACTIVITY_CLEAR_TASK
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
-                      | Intent.FLAG_ACTIVITY_NEW_TASK
-                      | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        finishAndRemoveTask();   // ลบออกจาก recent list ทันที
+        finishAndRemoveTask();
         Process.killProcess(Process.myPid());
     }
 
@@ -56,6 +50,9 @@ public class MainActivity extends Activity {
             WindowManager.LayoutParams.FLAG_FULLSCREEN,
             WindowManager.LayoutParams.FLAG_FULLSCREEN
         );
+
+        // ✅ ป้องกัน screenshot / screen recording
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
 
         setContentView(R.layout.activity_main);
         webView = findViewById(R.id.webview);
